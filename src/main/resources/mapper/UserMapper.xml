@@ -1,18 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jay.store.mapper.UserMapper">
-    <resultMap id="UserEntityMap" type="com.jay.store.entity.User">
-        <id column="uid" property="uid"></id>
-        <result column="username" property="username"></result>
-    </resultMap>
-    
-    <insert id="insert" useGeneratedKeys="true" keyProperty="uid">
-        INSERT INTO t_user (username) VALUES (#{username})
-    </insert>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-    <select id="findByUsername" resultMap="UserEntityMap">
-        SELECT * FROM t_user WHERE username = #{username}
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.the_news.dao.UserDao">
+
+    <!--查询所有新闻类型-->
+    <select id="findAllcategory" resultType="com.the_news.entity.Category">
+      SELECT * FROM category;
     </select>
+    
+    <!--查询所有新闻-->
+    <select id="findAllNews" resultType="com.the_news.entity.News">
+      SELECT * FROM news;
+    </select>
+
+    <!--根据新闻类型查询新闻-->
+    <select id="allNewsByCid" resultType="com.the_news.entity.News" parameterType="int">
+      SELECT * FROM  news WHERE cid=#{cid};
+    </select>
+
+    <!--根据新闻id查询新闻-->
+    <select id="findNewsById" resultType="com.the_news.entity.News" parameterType="int">
+        SELECT * FROM news WHERE id=#{id};
+    </select>
+
+    <!--根据标题模糊搜索-->
+    <select id="findNewsByTitle" resultType="com.the_news.entity.News" parameterType="String">
+        SELECT * FROM news WHERE title LIKE '%${title}%';
+    </select>
+
 </mapper>
